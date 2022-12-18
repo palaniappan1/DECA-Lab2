@@ -61,6 +61,7 @@ public class VTAAlgorithm extends CallGraphAlgorithm {
         entryPoint.getActiveBody().getUnits().forEach(unit -> {
             Stmt stmt = (Stmt) unit;
             // For a variable to be assigned an object, the unit should be a JAssignStmt
+            // In our running example, SomeInterface leaf = new LeafClass();
             if (stmt instanceof JAssignStmt) {
                 processStmtAsJAssignStmt(stmt);
             }
@@ -95,10 +96,10 @@ public class VTAAlgorithm extends CallGraphAlgorithm {
 //            if (values != null && !values.isEmpty()) {
                 for (SootClass targetClass : values) {
                     List<SootMethod> targetClsMthds = targetClass.getMethods();
-                    for (SootMethod sm : targetClsMthds) {
-                        if (sm.getSubSignature().equals(invokedMethod.getSubSignature())) {
-                            addNodeToCallGraph(sm, callGraph);
-                            addEdgeToCallGraph(sm, entryPoint, callGraph);
+                    for (SootMethod sootMethod : targetClsMthds) {
+                        if (sootMethod.getSubSignature().equals(invokedMethod.getSubSignature())) {
+                            addNodeToCallGraph(sootMethod, callGraph);
+                            addEdgeToCallGraph(sootMethod, entryPoint, callGraph);
                         }
                     }
                 }
